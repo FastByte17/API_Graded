@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/FastByte17/API_Graded#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "multer": "^1.4.2",
+    "nodemon": "^2.0.7"
   }
 }
