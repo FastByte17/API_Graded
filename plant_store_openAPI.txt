@@ -1,0 +1,383 @@
+openapi: 3.0.0
+info:
+  title: plant_store
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /plants:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Plants:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Plants'
+              examples:
+                example-1:
+                  value:
+                    Plants:
+                      - id: 33-55-666f
+                        title: Cactus
+                        description: 'Excellent condition, doesnt need water'
+                        location: 'Oulu, Finland'
+                        price: 22.65
+                        dateOfPosting: '2019-08-24'
+                        delivery:
+                          - shipping: Express
+                            pickup: 'Oulu Keskusta, Finland'
+                        contact: '+358123456789'
+                        sellerName: John Smith
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Failed
+      operationId: get-plants
+      description: Gets all the plant information.
+  '/plants/search/location/{location}':
+    parameters:
+      - schema:
+          type: string
+        name: location
+        in: path
+        required: true
+        description: Get by location
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plants'
+              examples:
+                example-1:
+                  value:
+                    id: 33-55-666f
+                    title: Cactus
+                    description: 'Excellent condition, doesnt need water'
+                    location: 'Oulu, Finland'
+                    price: 22.65
+                    dateOfPosting: '2019-08-24'
+                    delivery:
+                      - shipping: Express
+                        pickup: 'Oulu Keskusta, Finland'
+                    contact: '+358123456789'
+                    sellerName: John Smith
+        '404':
+          description: Not Found
+      operationId: get-plants-location
+      description: Gets the plant by searching through the Location.
+  '/plants/{dateOfPosting}':
+    parameters:
+      - schema:
+          type: string
+          format: date
+        name: dateOfPosting
+        in: path
+        required: true
+        description: Get by date
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plants'
+              examples:
+                example-1:
+                  value:
+                    id: 33-55-666f
+                    title: Cactus
+                    description: 'Excellent condition, doesnt need water'
+                    location: 'Oulu, Finland'
+                    price: 22.65
+                    dateOfPosting: '2019-08-24'
+                    delivery:
+                      - shipping: Express
+                        pickup: 'Oulu Keskusta, Finland'
+                    contact: '+358123456789'
+                    sellerName: John Smith
+        '404':
+          description: Not Found
+      operationId: get-plants-dateOfPosting
+      description: Gets the plant by searching through Date of Posting.
+  /login:
+    post:
+      summary: ''
+      operationId: post-login
+      responses:
+        '202':
+          description: Success
+        '401':
+          description: Unauthorized
+      description: Logs user in
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                  format: password
+              required:
+                - username
+                - password
+            examples:
+              example-1:
+                value:
+                  username: string
+                  password: string
+  /register:
+    post:
+      summary: ''
+      operationId: post-register
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: string
+                    example: 93f-72-64-345h
+        '400':
+          description: Bad Request
+      description: Registers an account.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Users'
+            examples:
+              example-1:
+                value:
+                  id: 23f-22-34-345h
+                  firstName: John
+                  lastName: Smith
+                  email: john.smith@mail.com
+                  password: pa$$word
+                  dateOfBirth: '1990-02-14'
+                  username: ladypitcher43
+        description: ''
+  /plant:
+    post:
+      summary: ''
+      operationId: post-plant
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 12-fdg-241fc
+                    description: created the id for post.
+                required:
+                  - id
+              examples:
+                example-1:
+                  value:
+                    id: 12-fdg-241fc
+        '415':
+          description: Unsupported Media Type
+      description: Post an ad for a plant.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Plants'
+            examples:
+              example-1:
+                value:
+                  id: 33-55-666f
+                  title: Cactus
+                  description: 'Excellent condition, doesnt need water'
+                  location: 'Oulu, Finland'
+                  price: 22.65
+                  dateOfPosting: '2019-08-24'
+                  delivery:
+                    - shipping: Express
+                      pickup: 'Oulu Keskusta, Finland'
+                  contact: '+358123456789'
+    put:
+      summary: ''
+      operationId: put-plant
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          description: Bad Request
+      description: Modify the ad.
+    delete:
+      summary: ''
+      operationId: delete-plant
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+      description: Delete the ad.
+  /imageUpload:
+    post:
+      summary: ''
+      operationId: post-imageUpload
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+      description: For adding pictures of plants.
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                plantimages:
+                  type: string
+                  format: binary
+                  minLength: 1
+                  maxLength: 4
+              required:
+                - plantimages
+            examples: {}
+          application/json:
+            schema:
+              type: object
+              properties: {}
+    parameters: []
+components:
+  schemas:
+    Users:
+      title: Users
+      description: User registeration info.
+      x-examples:
+        example-1:
+          id: 23f-22-34-345h
+          firstName: John
+          lastName: Smith
+          email: john.smith@mail.com
+          password: pa$$word
+          dateOfBirth: '1990-02-14'
+          username: ladypitcher43
+      type: object
+      properties:
+        id:
+          type: string
+          example: 23f-22-34-345h
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Smith
+        email:
+          type: string
+          example: john.smith@mail.com
+          format: email
+        password:
+          type: string
+          format: password
+        dateOfBirth:
+          type: string
+          format: date
+          example: '1990-02-14'
+        username:
+          type: string
+          example: ladypitcher43
+      required:
+        - firstName
+        - lastName
+        - email
+        - password
+        - dateOfBirth
+        - username
+    Plants:
+      title: Plants
+      description: Information about the plants ad posted by users.
+      x-examples: {}
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the given plant.
+          example: 33-55-666f
+        title:
+          type: string
+          description: Title for the posting
+          example: Cactus
+        description:
+          type: string
+          example: 'Excellent condition, doesnt need water'
+          description: Description for the posting
+        location:
+          type: string
+          example: 'Oulu, Finland'
+          description: Location of posting
+        price:
+          type: number
+          format: float
+          example: 22.65
+          description: Price of the plant
+        dateOfPosting:
+          type: string
+          format: date
+          description: Date of posting
+        delivery:
+          type: array
+          description: Delivery methods
+          items:
+            type: object
+            properties:
+              shipping:
+                type: string
+                example: Express
+                description: ''
+              pickup:
+                type: string
+                example: 'Oulu Keskusta, Finland'
+        contact:
+          type: string
+          example: '+358123456789'
+          maxLength: 13
+          description: Contact number of user for potential customers
+        sellerName:
+          type: string
+          example: John Smith
+        pictures:
+          format: binary
+          minLength: 1
+          maxLength: 4
+          type: string
+      required:
+        - title
+        - description
+        - location
+        - price
+        - dateOfPosting
+        - delivery
+        - contact
