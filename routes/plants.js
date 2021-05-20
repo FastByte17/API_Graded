@@ -55,7 +55,7 @@ let plantData = {
     ]
 }
 
-//app.use(bodyParser.json());
+app.use(bodyParser.json());
 
 router.get('/', (req, res) => {
     res.send(plantData.plants)
