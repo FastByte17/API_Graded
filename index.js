@@ -8,7 +8,7 @@ const plant = require('./routes/plants');
 
 app.set('port', (process.env.PORT || 80));
 
-app.use(cors);
+app.use(cors());
 
 app.use('/plants', plant);
 
