@@ -18,3 +18,5 @@ passport.use(new BasicStrategy(
         return done (null, user)
     }
 ))
+
+module.exports = pass;
