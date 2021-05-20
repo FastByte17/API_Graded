@@ -1,18 +1,12 @@
 const express = require('express')
 const app = express()
-const port = 3000
 const bodyParser = require('body-parser');
 const cors = require('cors');
 //const users = require('./routes/users');
 //const pass = require('./routes/pass');
 const plant = require('./routes/plants');
 
-
-
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
-
+app.set('port', (process.env.PORT || 80));
 
 app.use('/plants', plant);
 
@@ -49,3 +43,8 @@ app.post('/register', (req, res) => {
   users.addUser(req.body.username, req.body.email, hashedPassword);
   res.status(201).json({ status: 'a user was created' });
 })*/
+
+app.listen(app.get('port'), function() {
+  console.log('App is running on port', app.get('port'))
+})
+require('dotenv').config()
