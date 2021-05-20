@@ -6,9 +6,11 @@ const cors = require('cors');
 //const pass = require('./routes/pass');
 const plant = require('./routes/plants');
 
+app.use(cors());
+
 app.set('port', (process.env.PORT || 80));
 
-app.use(cors());
+
 
 app.use('/plants', plant);
 
