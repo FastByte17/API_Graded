@@ -8,7 +8,11 @@ const plant = require('./routes/plants');
 
 app.set('port', (process.env.PORT || 80));
 
+app.use(cors);
+
 app.use('/plants', plant);
+
+
 
 app.get('/', (req,res) => {
   res.send('plants retrieved')
